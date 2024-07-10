@@ -3,6 +3,7 @@
 use App\Http\Controllers\Authorization\AuthController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\SchoolController;
+use App\Http\Controllers\StudentController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -33,6 +34,10 @@ Route::get('/courses', [CourseController::class, 'index']);
 Route::get('/courses/pg', [CourseController::class, 'indexPg']);
 Route::get('/courses/{id}', [CourseController::class, 'show']);
 
+Route::get('/students', [StudentController::class, 'index']);
+Route::get('/students/{id}', [StudentController::class, 'show']);
+
+
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
@@ -42,8 +47,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     });
 
     Route::resource('schools', SchoolController::class)
-    ->only(['store', 'update', 'destroy']);
+        ->only(['store', 'update', 'destroy']);
     Route::resource('courses', CourseController::class)
+        ->only(['store', 'update', 'destroy']);
+    Route::resource('students', StudentController::class)
         ->only(['store', 'update', 'destroy']);
 
     Route::post('/logout', [AuthController::class, 'logout']);
